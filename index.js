@@ -10,14 +10,20 @@ var rowFormat = function(rowValues, rowIndex, columnNames) {
   for (var i = 0; i < columnNames.length; i++) {
     var columnName = columnNames[i];
     var value = rowValues[columnName];
-    if (
-      typeof value === 'string'
-      && value.match(/^-?[0-9\.]+$/)
-    ) {
-      result[columnName] = JSON.parse(value);
-    } else {
-      result[columnName] = value;
+    if (typeof value === 'string') {
+      // Read numbers
+      if (value.match(/^-?[0-9\.]+$/)) {
+        result[columnName] = JSON.parse(value);
+        continue;
+      }
+      // Read strings as strings without wrapping ' ' or " "
+      var stringMatch = value.match(/^('(.*)')|("(.*)")$/);
+      if (stringMatch) {
+        result[columnName] = stringMatch[2] || stringMatch[4];
+        continue;
+      }
     }
+    result[columnName] = value;
   }
   return result;
 };
