@@ -22,6 +22,16 @@ var rowFormat = function(rowValues, rowIndex, columnNames) {
         result[columnName] = stringMatch[2] || stringMatch[4];
         continue;
       }
+      // Read booleans
+      const lowercaseValue = value.toLowerCase();
+      if (lowercaseValue === 'true') {
+        result[columnName] = true;
+        continue;
+      }
+      if (lowercaseValue === 'false') {
+        result[columnName] = false;
+        continue;
+      }
     }
     result[columnName] = value;
   }
