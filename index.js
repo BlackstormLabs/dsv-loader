@@ -32,6 +32,11 @@ var rowFormat = function(rowValues, rowIndex, columnNames) {
         result[columnName] = false;
         continue;
       }
+      // Read null / undefined
+      if (lowercaseValue === 'null') {
+        result[columnName] = null;
+        continue;
+      }
     }
     result[columnName] = value;
   }
